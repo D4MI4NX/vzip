@@ -213,10 +213,18 @@ pub mut:
 	files []File
 }
 
+// new creates a new Zip object
 pub fn Zip.new() Zip {
 	return Zip{}
 }
 
+// add_file adds a local file to the Zip object, storing it with a specified relative path.
+//
+// ### Parameters
+// - `root_path`: The base directory from which the relative path is derived.
+// - `relative_path`: The path of the file as it will appear inside the ZIP archive.
+//
+// Example: Zip.add_file('/tmp/example', 'subdir/file.txt')! // '/tmp/example/subdir/file.txt' stored as 'subdir/file.txt' in ZIP archive
 pub fn (mut z Zip) add_file(root_path string, relative_path string) ! {
 	mut f := File{
 		file_name: relative_path
@@ -233,6 +241,8 @@ pub fn (mut z Zip) add_file(root_path string, relative_path string) ! {
 	z.files << f
 }
 
+// create creates and returns the complete data of the ZIP archive
+// Example: os.write_bytes('output.zip', Zip.create()) // Write the ZIP to 'output.zip'
 pub fn (z Zip) create() []u8 {
 	mut data := []u8{}
 
