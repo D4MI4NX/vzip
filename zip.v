@@ -54,7 +54,7 @@ fn (f File) encode() []u8 {
 	data << binary.big_endian_get_u16(u16(f.extra_field.len) * 4)
 
 	// File name
-	data << f.file_name.bytes()
+	data << os.to_slash(f.file_name).bytes()
 
 	// Extra field
 	for k, v in f.extra_field {
@@ -142,7 +142,7 @@ fn (fh FileHeader) encode() []u8 {
 	data << binary.little_endian_get_u32(fh.relative_local_header_offset)
 
 	// Filename
-	data << fh.filename.bytes()
+	data << os.to_slash(fh.filename).bytes()
 
 	// Extra field
 	for k, v in fh.extra_field {
